@@ -30,9 +30,15 @@ const login_selector = "button.styled_button i.fa.fa-sign-in";
 
 async function mane() {
 	const browser = await puppeteer.launch({
-		headless: "shell",
+		headless: true,
 	});
 	const page = await browser.newPage();
+	await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0');
+	await page.evaluateOnNewDocument(() => {
+		Object.defineProperty(navigator, 'webdriver', {
+			get: () => false,
+		});
+	});
 	await page.goto("https://www.fimfiction.net/", {
 		waitUntil: "load",
 	});
